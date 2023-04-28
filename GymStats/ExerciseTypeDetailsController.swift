@@ -19,6 +19,7 @@ class ExerciseTypeDetailsController: UIViewController, UITableViewDataSource, UI
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.title = "Séries de " + (exerciseType?.category?.name ?? " - ")
         fetchExerciseSets()
         exerciseSetTableView.delegate = self
         exerciseSetTableView.dataSource = self

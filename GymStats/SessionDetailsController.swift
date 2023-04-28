@@ -19,6 +19,11 @@ class SessionDetailsController: UIViewController, UITableViewDataSource, UITable
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        let date = dateFormatter.string(from: session?.date ?? Date())
+        navigationItem.title = "Exercices du " + date
+
         fetchExerciseTypes()
         exerciseTypeTableView.delegate = self
         exerciseTypeTableView.dataSource = self
@@ -102,30 +107,52 @@ class SessionDetailsController: UIViewController, UITableViewDataSource, UITable
     // MARK: - Actions
     
     @IBAction func createExerciseType(_ sender: Any) {
-        let newCategory = ExerciseCategory(context: context)
-        newCategory.name = "Generic Category"
-        let newExerciseType = ExerciseType(context: context)
-        newExerciseType.category = newCategory
-        let newExerciseSet = ExerciseSet(context: context)
-        newExerciseSet.weight = 10
-        newExerciseSet.reps = 10
-        newExerciseSet.type = newExerciseType
-        session?.mutableSetValue(forKey: "exerciseTypes").add(newExerciseType)
-        newExerciseType.mutableSetValue(forKey: "exerciseSets").add(newExerciseSet)
-    
-        do {
-            try context.save()
-            exerciseTypes.insert(newExerciseType, at: 0)
-            exerciseTypeTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-            sessionDelegate?.didUpdateSession(session!)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
-        }
+        let alertController = UIAlertController(title: "New session exercise", message: "Enter exercise name", preferredStyle: .alert)
+        alertController.addTextField(configurationHandler: { (textField) in
+            textField.placeholder = "Exercise name"
+        })
+        let addAction = UIAlertAction(title: "Add", style: .default, handler: { [self] (_) in
+            guard let category = alertController.textFields?[0].text, !category.isEmpty else {
+                return
+            }
+            // Check if the category already exists
+            let fetchRequest: NSFetchRequest<ExerciseCategory> = ExerciseCategory.fetchRequest()
+            fetchRequest.predicate = NSPredicate(format: "name == %@", category)
+            do {
+                let results = try context.fetch(fetchRequest)
+                if let existingCategory = results.first {
+                    // Create new ExerciseType with existing ExerciseCategory
+                    let newExerciseType = ExerciseType(context: context)
+                    newExerciseType.category = existingCategory
+                    session?.mutableSetValue(forKey: "exerciseTypes").add(newExerciseType)
+                    try context.save()
+                    exerciseTypes.insert(newExerciseType, at: 0)
+                    exerciseTypeTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                    sessionDelegate?.didUpdateSession(session!)
+                } else {
+                    // Create new ExerciseCategory and ExerciseType
+                    let newCategory = ExerciseCategory(context: context)
+                    newCategory.name = category
+                    let newExerciseType = ExerciseType(context: context)
+                    newExerciseType.category = newCategory
+                    session?.mutableSetValue(forKey: "exerciseTypes").add(newExerciseType)
+                    try context.save()
+                    exerciseTypes.insert(newExerciseType, at: 0)
+                    exerciseTypeTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                    sessionDelegate?.didUpdateSession(session!)
+                }
+            } catch {
+                print("Error fetching category: \(error)")
+            }
+        })
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        alertController.addAction(addAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true, completion: nil)
     }
 }
 
 protocol SessionDetailsDelegate: AnyObject {
     func didUpdateSession(_ session: Session)
 }
-
 
