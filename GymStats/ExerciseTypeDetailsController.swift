@@ -44,6 +44,7 @@ class ExerciseTypeDetailsController: UIViewController, UITableViewDataSource, UI
         let exerciseSet = exerciseSets[indexPath.row]
         content.text = exerciseSet.reps.formatted() + " reps à " + exerciseSet.weight.formatted() + "kg"
         cell.contentConfiguration = content
+        cell.selectionStyle = .none;
         return cell
     }
     
