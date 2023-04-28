@@ -7,25 +7,29 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3010F6FA29FC063D008A8B76 /* ExerciseTypeDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3010F6F929FC063D008A8B76 /* ExerciseTypeDetailsController.swift */; };
 		3017C8A529FBC749008EE36F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017C8A429FBC749008EE36F /* AppDelegate.swift */; };
 		3017C8A729FBC749008EE36F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017C8A629FBC749008EE36F /* SceneDelegate.swift */; };
-		3017C8A929FBC749008EE36F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017C8A829FBC749008EE36F /* ViewController.swift */; };
+		3017C8A929FBC749008EE36F /* SessionOverviewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017C8A829FBC749008EE36F /* SessionOverviewController.swift */; };
 		3017C8AC29FBC749008EE36F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3017C8AA29FBC749008EE36F /* Main.storyboard */; };
 		3017C8AF29FBC749008EE36F /* GymStats.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3017C8AD29FBC749008EE36F /* GymStats.xcdatamodeld */; };
 		3017C8B129FBC74F008EE36F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3017C8B029FBC74F008EE36F /* Assets.xcassets */; };
 		3017C8B429FBC74F008EE36F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3017C8B229FBC74F008EE36F /* LaunchScreen.storyboard */; };
+		3017C8CD29FBF3A1008EE36F /* SessionDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3017C8CC29FBF3A1008EE36F /* SessionDetailsController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3010F6F929FC063D008A8B76 /* ExerciseTypeDetailsController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExerciseTypeDetailsController.swift; sourceTree = "<group>"; };
 		3017C8A129FBC749008EE36F /* GymStats.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GymStats.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3017C8A429FBC749008EE36F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3017C8A629FBC749008EE36F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		3017C8A829FBC749008EE36F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		3017C8A829FBC749008EE36F /* SessionOverviewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionOverviewController.swift; sourceTree = "<group>"; };
 		3017C8AB29FBC749008EE36F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3017C8AE29FBC749008EE36F /* GymStats.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = GymStats.xcdatamodel; sourceTree = "<group>"; };
 		3017C8B029FBC74F008EE36F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3017C8B329FBC74F008EE36F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3017C8B529FBC750008EE36F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3017C8CC29FBF3A1008EE36F /* SessionDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailsController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,12 +64,14 @@
 			children = (
 				3017C8A429FBC749008EE36F /* AppDelegate.swift */,
 				3017C8A629FBC749008EE36F /* SceneDelegate.swift */,
-				3017C8A829FBC749008EE36F /* ViewController.swift */,
+				3017C8A829FBC749008EE36F /* SessionOverviewController.swift */,
 				3017C8AA29FBC749008EE36F /* Main.storyboard */,
 				3017C8B029FBC74F008EE36F /* Assets.xcassets */,
 				3017C8B229FBC74F008EE36F /* LaunchScreen.storyboard */,
 				3017C8B529FBC750008EE36F /* Info.plist */,
 				3017C8AD29FBC749008EE36F /* GymStats.xcdatamodeld */,
+				3017C8CC29FBF3A1008EE36F /* SessionDetailsController.swift */,
+				3010F6F929FC063D008A8B76 /* ExerciseTypeDetailsController.swift */,
 			);
 			path = GymStats;
 			sourceTree = "<group>";
@@ -141,7 +147,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3017C8A929FBC749008EE36F /* ViewController.swift in Sources */,
+				3017C8CD29FBF3A1008EE36F /* SessionDetailsController.swift in Sources */,
+				3017C8A929FBC749008EE36F /* SessionOverviewController.swift in Sources */,
+				3010F6FA29FC063D008A8B76 /* ExerciseTypeDetailsController.swift in Sources */,
 				3017C8AF29FBC749008EE36F /* GymStats.xcdatamodeld in Sources */,
 				3017C8A529FBC749008EE36F /* AppDelegate.swift in Sources */,
 				3017C8A729FBC749008EE36F /* SceneDelegate.swift in Sources */,
