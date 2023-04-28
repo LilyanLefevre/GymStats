@@ -54,6 +54,24 @@ class ExerciseTypeDetailsController: UIViewController, UITableViewDataSource, UI
             exerciseSetTableView.deselectRow(at: selectedIndexPath, animated: true)
         }
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the object from Core Data
+            let objectToDelete = exerciseSets[indexPath.row]
+            context.delete(objectToDelete)
+            
+            // Save the changes
+            do {
+                try context.save()
+                exerciseSets.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                exerciseTypeDelegate?.didUpdateExerciseType(exerciseType!)
+            } catch {
+                print("Error deleting object: \(error)")
+            }
+        }
+    }
 
     func didUpdateExerciseType(_ exerciseSet: ExerciseSet) {
         // find the index of the updated session in the sessions array

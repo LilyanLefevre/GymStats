@@ -42,7 +42,7 @@ class SessionDetailsController: UIViewController, UITableViewDataSource, UITable
         let cell = tableView.dequeueReusableCell(withIdentifier: "ExerciseTypeItem", for: indexPath)
         var content = cell.defaultContentConfiguration()
         let exerciseType = exerciseTypes[indexPath.row]
-        content.text = exerciseType.name ?? "Sans nom"
+        content.text = exerciseType.category?.name ?? "Sans nom"
         content.secondaryText = (exerciseType.exerciseSets?.count.formatted() ?? "0") + " série(s)"
         cell.contentConfiguration = content
         cell.accessoryType = .disclosureIndicator
@@ -69,6 +69,24 @@ class SessionDetailsController: UIViewController, UITableViewDataSource, UITable
             exerciseTypeTableView.deselectRow(at: selectedIndexPath, animated: true)
         }
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the object from Core Data
+            let objectToDelete = exerciseTypes[indexPath.row]
+            context.delete(objectToDelete)
+            
+            // Save the changes
+            do {
+                try context.save()
+                exerciseTypes.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+                sessionDelegate?.didUpdateSession(session!)
+            } catch {
+                print("Error deleting object: \(error)")
+            }
+        }
+    }
 
     func didUpdateExerciseType(_ exerciseType: ExerciseType) {
         // find the index of the updated session in the sessions array
@@ -84,8 +102,10 @@ class SessionDetailsController: UIViewController, UITableViewDataSource, UITable
     // MARK: - Actions
     
     @IBAction func createExerciseType(_ sender: Any) {
+        let newCategory = ExerciseCategory(context: context)
+        newCategory.name = "Generic Category"
         let newExerciseType = ExerciseType(context: context)
-        newExerciseType.name = "GenericExercise"
+        newExerciseType.category = newCategory
         let newExerciseSet = ExerciseSet(context: context)
         newExerciseSet.weight = 10
         newExerciseSet.reps = 10

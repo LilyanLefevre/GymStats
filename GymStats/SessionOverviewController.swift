@@ -75,6 +75,23 @@ class SessionOverviewController: UIViewController, UITableViewDataSource, UITabl
             sessionTableView.deselectRow(at: selectedIndexPath, animated: true)
         }
     }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            // Delete the object from Core Data
+            let objectToDelete = sessions[indexPath.row]
+            context.delete(objectToDelete)
+            
+            // Save the changes
+            do {
+                try context.save()
+                sessions.remove(at: indexPath.row)
+                tableView.deleteRows(at: [indexPath], with: .fade)
+            } catch {
+                print("Error deleting object: \(error)")
+            }
+        }
+    }
 
     func didUpdateSession(_ session: Session) {
         // find the index of the updated session in the sessions array
