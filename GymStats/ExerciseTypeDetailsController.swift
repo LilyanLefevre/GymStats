@@ -87,21 +87,49 @@ class ExerciseTypeDetailsController: UIViewController, UITableViewDataSource, UI
     // MARK: - Actions
     
     @IBAction func createExerciseSet(_ sender: Any) {
-        let newExerciseSet = ExerciseSet(context: context)
-        newExerciseSet.weight = 10
-        newExerciseSet.reps = 10
-        newExerciseSet.type = exerciseType
-        exerciseType?.mutableSetValue(forKey: "exerciseSets").add(newExerciseSet)
-    
-        do {
-            try context.save()
-            exerciseSets.insert(newExerciseSet, at: 0)
-            exerciseSetTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
-            exerciseTypeDelegate?.didUpdateExerciseType(exerciseType!)
-        } catch let error as NSError {
-            print("Could not save. \(error), \(error.userInfo)")
+        let alertController = UIAlertController(title: "New Exercise Set", message: nil, preferredStyle: .alert)
+
+        alertController.addTextField { textField in
+            textField.placeholder = "Reps"
+            textField.keyboardType = .numberPad
         }
+
+        alertController.addTextField { textField in
+            textField.placeholder = "Weight"
+            textField.keyboardType = .decimalPad
+        }
+
+        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        alertController.addAction(UIAlertAction(title: "Save", style: .default, handler: { _ in
+            guard let repsText = alertController.textFields?.first?.text,
+                  let weightText = alertController.textFields?.last?.text,
+                  let reps = Int(repsText),
+                  let weight = Double(weightText) else {
+                // Handle error if values are not valid
+                return
+            }
+
+            let exerciseSet = ExerciseSet(context: self.context)
+            exerciseSet.reps = Int16(reps)
+            exerciseSet.weight = weight
+            exerciseSet.type = self.exerciseType
+            self.exerciseType?.mutableSetValue(forKey: "exerciseSets").add(exerciseSet)
+
+            do {
+                try self.context.save()
+                self.exerciseSets.insert(exerciseSet, at: 0)
+                self.exerciseSetTableView.insertRows(at: [IndexPath(row: 0, section: 0)], with: .automatic)
+                self.exerciseTypeDelegate?.didUpdateExerciseType(self.exerciseType!)
+            
+            } catch {
+                print("Error saving new ExerciseSet: \(error)")
+            }
+        }))
+
+        present(alertController, animated: true, completion: nil)
     }
+
 }
 
 protocol ExerciseTypeDetailsDelegate: AnyObject {
